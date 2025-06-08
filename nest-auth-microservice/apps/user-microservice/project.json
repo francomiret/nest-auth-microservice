@@ -1,7 +1,7 @@
 {
-  "name": "user-service",
+  "name": "user-microservice",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/user-service/src",
+  "sourceRoot": "apps/user-microservice/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -23,15 +23,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "user-service:build",
+        "buildTarget": "user-microservice:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "user-service:build:development"
+          "buildTarget": "user-microservice:build:development"
         },
         "production": {
-          "buildTarget": "user-service:build:production"
+          "buildTarget": "user-microservice:build:production"
         }
       }
     },

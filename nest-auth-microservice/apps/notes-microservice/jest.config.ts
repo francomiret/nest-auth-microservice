@@ -1,10 +1,10 @@
 export default {
-  displayName: 'auth-service',
+  displayName: 'notes-microservice',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/auth-service',
+  coverageDirectory: '../../coverage/apps/notes-microservice',
 };

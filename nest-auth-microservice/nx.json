@@ -16,6 +16,7 @@
   },
   "nxCloudId": "6844eb7187e9752c5d17764f",
   "plugins": [
+    "@nx/eslint/plugin",
     {
       "plugin": "@nx/webpack/plugin",
       "options": {
