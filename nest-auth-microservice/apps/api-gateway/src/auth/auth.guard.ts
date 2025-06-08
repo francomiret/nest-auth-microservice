@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException();
     }
-
     try {
       request['user'] = { token };
       return true;
@@ -28,8 +27,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private tockenExtractor(request: Request): string | undefined {
-    const [type, token] =
-      request.headers.get('authorization')?.split(' ') ?? [];
+    const [type, token] = request.headers['authorization']?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }

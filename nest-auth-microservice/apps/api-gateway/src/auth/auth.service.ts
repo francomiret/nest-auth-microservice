@@ -18,10 +18,6 @@ export class AuthService {
     );
   }
 
-  verify() {
-    return `This action returns all auth`;
-  }
-
   login(loginDto: LoginUserDto) {
     return this.natsClient.send('auth.login', loginDto).pipe(
       map((response) => response),
