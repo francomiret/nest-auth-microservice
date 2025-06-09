@@ -4,6 +4,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from './auth.guard';
 import { User } from './decorators/user.decorator';
+import { Token } from './decorators/token.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -16,8 +17,11 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('verify')
-  verify(@User() user: { token: string }) {
-    return user;
+  verify(
+    @User() user: { id: string; email: string; name: string },
+    @Token() token: string
+  ) {
+    return { user, token };
   }
 
   @Post('login')
