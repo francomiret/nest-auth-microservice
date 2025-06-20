@@ -1,13 +1,11 @@
 import joi from 'joi';
 
 interface EnvironmentVariables {
-  JWT_SECRET: string;
   NATS_SERVER: string;
 }
 
 export const environment = joi
   .object({
-    JWT_SECRET: joi.string().required(),
     NATS_SERVER: joi.string().required(),
   })
   .unknown(true)
@@ -22,6 +20,5 @@ if (error) {
 export const env: EnvironmentVariables = value;
 
 export const config = {
-  jwtSecret: env.JWT_SECRET,
   natsServer: env.NATS_SERVER,
 };
