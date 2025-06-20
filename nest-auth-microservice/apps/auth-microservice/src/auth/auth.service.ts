@@ -31,7 +31,7 @@ export class AuthService extends PrismaClient implements OnModuleInit {
         message: 'User already exists',
       });
     }
-    const hashedPassword = await bcrypt.hashSync(registerDto.password, 10);
+    const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
     const user = await this.user.create({
       data: {
         ...registerDto,
@@ -42,7 +42,31 @@ export class AuthService extends PrismaClient implements OnModuleInit {
   }
 
   async login(loginDto: LoginUserDto) {
-    return loginDto;
+    const exist = await this.user.findUnique({
+      where: {
+        email: loginDto.email,
+      },
+    });
+    if (!exist) {
+      throw new RpcException({
+        status: 'error',
+        code: 400,
+        message: 'User not found',
+      });
+    }
+    const isPasswordValid = bcrypt.compareSync(loginDto.password, exist.password);
+    if (!isPasswordValid) {
+      throw new RpcException({
+        status: 'error',
+        code: 400,
+        message: 'Invalid password',
+      });
+    }
+    const { password: _, createdAt: __, updatedAt: ____, ...user } = exist;
+    return {
+      user,
+      token: this.signJwt(user),
+    };
   }
 
   async verifyToken(token: string) {
