@@ -4,8 +4,21 @@ export class Member {
     email: string;
     startDate: Date;
     endDate?: Date;
-    memberType: string;
-    memberStatus: string;
+    memberType: MemberType;
+    memberStatus: MemberStatus;
+    userId: string;
+    available: boolean;
     createdAt: Date;
     updatedAt: Date;
+}
+
+
+export enum MemberType {
+    INDIVIDUAL = 'INDIVIDUAL',
+    GROUP = 'GROUP',
+}
+
+export enum MemberStatus {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE',
 }

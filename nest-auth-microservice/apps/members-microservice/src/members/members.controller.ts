@@ -9,27 +9,27 @@ export class MembersController {
   constructor(private readonly membersService: MembersService) { }
 
   @MessagePattern('members.create')
-  create(@Payload() createMemberDto: CreateMemberDto) {
+  create(@Payload() createMemberDto: CreateMemberDto,) {
     return this.membersService.create(createMemberDto);
   }
 
   @MessagePattern('members.findAll')
-  findAll() {
-    return this.membersService.findAll();
+  findAll(@Payload() userId: string) {
+    return this.membersService.findAll(userId);
   }
 
   @MessagePattern('members.findOne')
-  findOne(@Payload() id: number) {
-    return this.membersService.findOne(id);
+  findOne(@Payload() id: string, userId: string) {
+    return this.membersService.findOne(id, userId);
   }
 
-  // @MessagePattern('updateMember')
-  // update(@Payload() updateMemberDto: UpdateMemberDto) {
-  //   return this.membersService.update(updateMemberDto.id, updateMemberDto);
-  // }
+  @MessagePattern('updateMember')
+  update(@Payload() updateMemberDto: UpdateMemberDto) {
+    return this.membersService.update(updateMemberDto.id, updateMemberDto);
+  }
 
   @MessagePattern('members.remove')
-  remove(@Payload() id: number) {
-    return this.membersService.remove(id);
+  remove(@Payload() id: string, userId: string) {
+    return this.membersService.remove(id, userId);
   }
 }

@@ -1,26 +1,119 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
+import { PrismaClient } from '../../generated/prisma';
+import { OnModuleInit } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
-export class MembersService {
-  create(createMemberDto: CreateMemberDto) {
-    return 'This action adds a new member';
+export class MembersService extends PrismaClient implements OnModuleInit {
+  async onModuleInit() {
+    await this.$connect();
   }
 
-  findAll() {
-    return `This action returns all members`;
+  async create(createMemberDto: CreateMemberDto) {
+    const member = await this.member.findUnique({
+      where: {
+        email: createMemberDto.email,
+        userId: createMemberDto.userId,
+        available: true,
+      },
+    });
+    if (member) {
+      throw new RpcException({
+        code: 400,
+        message: 'Member already exists',
+        error: 'Member already exists',
+      });
+    }
+
+    try {
+      return await this.member.create({
+        data: {
+          ...createMemberDto,
+          userId: createMemberDto.userId,
+        },
+      });
+    } catch (error) {
+      throw new RpcException({
+        code: 500,
+        message: 'Error creating member',
+        error: error.message,
+      });
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findAll(userId: string) {
+    try {
+      return await this.member.findMany({
+        where: {
+          userId,
+          available: true,
+        },
+      });
+    } catch (error) {
+      throw new RpcException({
+        code: 500,
+        message: 'Error finding members',
+        error: error.message,
+      });
+    }
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async findOne(id: string, userId: string) {
+    try {
+      return await this.member.findUnique({
+        where: {
+          id,
+          userId,
+          available: true,
+        },
+      });
+    } catch (error) {
+      throw new RpcException({
+        code: 500,
+        message: 'Error finding member',
+        error: error.message,
+      });
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async update(id: string, updateMemberDto: UpdateMemberDto) {
+    try {
+      return await this.member.update({
+        where: {
+          id,
+          userId: updateMemberDto.userId,
+          available: true,
+        },
+        data: updateMemberDto,
+      });
+    } catch (error) {
+      throw new RpcException({
+        code: 500,
+        message: 'Error updating member',
+        error: error.message,
+      });
+    }
+  }
+
+  async remove(id: string, userId: string) {
+    try {
+      return await this.member.update({
+        where: {
+          id,
+          userId,
+        },
+        data: {
+          available: false,
+        },
+      });
+    } catch (error) {
+      throw new RpcException({
+        code: 500,
+        message: 'Error removing member',
+        error: error.message,
+      });
+    }
   }
 }

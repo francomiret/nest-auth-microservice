@@ -1,4 +1,5 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { MemberStatus, MemberType } from "../entities/member.entity";
 
 export class CreateMemberDto {
     @IsString()
@@ -17,11 +18,19 @@ export class CreateMemberDto {
     @IsOptional()
     endDate: Date;
 
-    @IsString()
+    @IsEnum(MemberType)
     @IsNotEmpty()
-    memberType: string;
+    memberType: MemberType;
+
+    @IsEnum(MemberStatus)
+    @IsNotEmpty()
+    memberStatus: MemberStatus;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    available: boolean;
 
     @IsString()
     @IsNotEmpty()
-    memberStatus: string;
+    userId: string;
 }
