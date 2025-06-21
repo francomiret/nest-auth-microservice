@@ -58,10 +58,36 @@ export class PaymentsService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: string, updatePaymentDto: UpdatePaymentDto, userId: string) {
+    const payment = await this.findOne(id, userId);
+    if (!payment) {
+      throw new RpcException({
+        code: 404,
+        message: 'Payment not found',
+      });
+    }
+    if (payment.userId !== userId) {
+      throw new RpcException({
+        code: 403,
+        message: 'You are not authorized to update this payment',
+      });
+    }
     try {
       const updatedPayment = await this.payment.update({
         where: { id, userId },
-        data: updatePaymentDto,
+        data: {
+          amount: updatePaymentDto.amount,
+          status: updatePaymentDto.status,
+          date: updatePaymentDto.date,
+          userId: userId,
+          available: updatePaymentDto.available,
+          comments: updatePaymentDto.comments,
+          createdAt: payment.createdAt,
+          updatedAt: new Date(),
+          currency: updatePaymentDto.currency,
+          method: updatePaymentDto.method,
+          payeeId: updatePaymentDto.payeeId,
+          payerId: updatePaymentDto.payerId,
+        },
       });
       return updatedPayment;
     } catch (error) {

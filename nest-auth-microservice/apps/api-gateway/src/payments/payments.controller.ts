@@ -24,18 +24,18 @@ export class PaymentsController {
   @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string, @User() user: { id: string }) {
-    return this.paymentsService.findOne(+id, user.id);
+    return this.paymentsService.findOne(id, user.id);
   }
 
   @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto, @User() user: { id: string }) {
-    return this.paymentsService.update(+id, updatePaymentDto, user.id);
+    return this.paymentsService.update(id, updatePaymentDto, user.id);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @User() user: { id: string }) {
-    return this.paymentsService.remove(+id, user.id);
+    return this.paymentsService.remove(id, user.id);
   }
 }

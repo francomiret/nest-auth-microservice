@@ -9,27 +9,27 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) { }
 
   @MessagePattern('payments.create')
-  create(@Payload() createPaymentDto: CreatePaymentDto) {
-    return this.paymentsService.create(createPaymentDto);
+  async create(@Payload() createPaymentDto: CreatePaymentDto) {
+    return await this.paymentsService.create(createPaymentDto);
   }
 
   @MessagePattern('payments.findAll')
-  findAll(@Payload() userId: string) {
-    return this.paymentsService.findAll(userId);
+  async findAll(@Payload() userId: string) {
+    return await this.paymentsService.findAll(userId);
   }
 
   @MessagePattern('payments.findOne')
-  findOne(@Payload() id: string, userId: string) {
-    return this.paymentsService.findOne(id, userId);
+  async findOne(@Payload() data: { id: string, userId: string }) {
+    return await this.paymentsService.findOne(data.id, data.userId);
   }
 
   @MessagePattern('payments.update')
-  update(@Payload() updatePaymentDto: UpdatePaymentDto, userId: string) {
-    return this.paymentsService.update(updatePaymentDto.id, updatePaymentDto, userId);
+  async update(@Payload() data: { id: string, updatePaymentDto: UpdatePaymentDto, userId: string }) {
+    return await this.paymentsService.update(data.id, data.updatePaymentDto, data.userId);
   }
 
   @MessagePattern('payments.remove')
-  remove(@Payload() id: string, userId: string) {
-    return this.paymentsService.remove(id, userId);
+  async remove(@Payload() data: { id: string, userId: string }) {
+    return await this.paymentsService.remove(data.id, data.userId);
   }
 }

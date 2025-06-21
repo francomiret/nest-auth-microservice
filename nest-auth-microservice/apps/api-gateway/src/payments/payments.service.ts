@@ -27,7 +27,7 @@ export class PaymentsService {
     );
   }
 
-  findOne(id: number, userId: string) {
+  findOne(id: string, userId: string) {
     return this.natsClient.send('payments.findOne', { id, userId }).pipe(
       map((response) => response),
       catchError((error) => {
@@ -36,7 +36,7 @@ export class PaymentsService {
     );
   }
 
-  update(id: number, updatePaymentDto: UpdatePaymentDto, userId: string) {
+  update(id: string, updatePaymentDto: UpdatePaymentDto, userId: string) {
     return this.natsClient.send('payments.update', { id, updatePaymentDto, userId }).pipe(
       map((response) => response),
       catchError((error) => {
@@ -45,7 +45,7 @@ export class PaymentsService {
     );
   }
 
-  remove(id: number, userId: string) {
+  remove(id: string, userId: string) {
     return this.natsClient.send('payments.remove', { id, userId }).pipe(
       map((response) => response),
       catchError((error) => {
