@@ -24,18 +24,18 @@ export class MembersController {
   @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string, @User() user: { id: string }) {
-    return this.membersService.findOne(+id, user.id);
+    return this.membersService.findOne(id, user.id);
   }
 
   @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto, @User() user: { id: string }) {
-    return this.membersService.update(+id, updateMemberDto, user.id);
+    return this.membersService.update(id, updateMemberDto, user.id);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @User() user: { id: string }) {
-    return this.membersService.remove(+id, user.id);
+    return this.membersService.remove(id, user.id);
   }
 }

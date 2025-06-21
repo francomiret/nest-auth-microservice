@@ -66,7 +66,6 @@ export class MembersService extends PrismaClient implements OnModuleInit {
         where: {
           id,
           userId,
-          available: true,
         },
       });
     } catch (error) {
@@ -99,7 +98,19 @@ export class MembersService extends PrismaClient implements OnModuleInit {
           userId: updateMemberDto.userId,
           available: true,
         },
-        data: updateMemberDto,
+        data: {
+          available: updateMemberDto.available,
+          endDate: updateMemberDto.endDate,
+          memberStatus: updateMemberDto.memberStatus,
+          memberType: updateMemberDto.memberType,
+          name: updateMemberDto.name,
+          startDate: updateMemberDto.startDate,
+          updatedAt: new Date(),
+          email: updateMemberDto.email,
+          userId: updateMemberDto.userId,
+          id,
+          createdAt: member.createdAt,
+        },
       });
     } catch (error) {
       throw new RpcException({
