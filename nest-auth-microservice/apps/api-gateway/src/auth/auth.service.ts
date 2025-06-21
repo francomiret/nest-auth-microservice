@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) {}
+  constructor(@Inject(NATS_SERVICE) private readonly natsClient: ClientProxy) { }
 
   register(registerDto: RegisterUserDto) {
     return this.natsClient.send('auth.register', registerDto).pipe(

@@ -3,12 +3,12 @@ import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from './auth.guard';
-import { User } from './decorators/user.decorator';
-import { Token } from './decorators/token.decorator';
+import { User } from '../common/decorators/user.decorator';
+import { Token } from '../common/decorators/token.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('register')
   register(@Body() registerDto: RegisterUserDto) {
