@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 enum MemberType {
@@ -20,12 +21,13 @@ export class CreateMemberDto {
     email: string;
 
     @IsDate()
-    @IsNotEmpty()
+    @Type(() => Date)
     startDate: Date;
 
-    @IsDate()
     @IsOptional()
-    endDate: Date;
+    @IsDate()
+    @Type(() => Date)
+    endDate?: Date;
 
     @IsEnum(MemberType)
     @IsNotEmpty()
