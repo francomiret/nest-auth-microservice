@@ -19,17 +19,20 @@ export class MembersController {
   }
 
   @MessagePattern('members.findOne')
-  findOne(@Payload() id: string, userId: string) {
+  findOne(@Payload() data: { id: string, userId: string }) {
+    const { id, userId } = data;
     return this.membersService.findOne(id, userId);
   }
 
-  @MessagePattern('updateMember')
-  update(@Payload() updateMemberDto: UpdateMemberDto) {
-    return this.membersService.update(updateMemberDto.id, updateMemberDto);
+  @MessagePattern('members.update')
+  update(@Payload() data: { id: string, updateMemberDto: UpdateMemberDto }) {
+    const { id, updateMemberDto } = data;
+    return this.membersService.update(id, updateMemberDto);
   }
 
   @MessagePattern('members.remove')
-  remove(@Payload() id: string, userId: string) {
+  remove(@Payload() data: { id: string, userId: string }) {
+    const { id, userId } = data;
     return this.membersService.remove(id, userId);
   }
 }

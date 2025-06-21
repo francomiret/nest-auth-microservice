@@ -37,7 +37,7 @@ export class PaymentsService {
   }
 
   update(id: string, updatePaymentDto: UpdatePaymentDto, userId: string) {
-    return this.natsClient.send('payments.update', { id, updatePaymentDto, userId }).pipe(
+    return this.natsClient.send('payments.update', { id, updatePaymentDto: { ...updatePaymentDto, userId } }).pipe(
       map((response) => response),
       catchError((error) => {
         throw new RpcException(error.message);

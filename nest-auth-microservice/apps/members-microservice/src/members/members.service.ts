@@ -79,6 +79,19 @@ export class MembersService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: string, updateMemberDto: UpdateMemberDto) {
+    const member = await this.findOne(id, updateMemberDto.userId);
+    if (!member) {
+      throw new RpcException({
+        code: 404,
+        message: 'Member not found',
+      });
+    }
+    if (member.userId !== updateMemberDto.userId) {
+      throw new RpcException({
+        code: 403,
+        message: 'You are not authorized to update this member',
+      });
+    }
     try {
       return await this.member.update({
         where: {

@@ -24,8 +24,8 @@ export class PaymentsController {
   }
 
   @MessagePattern('payments.update')
-  async update(@Payload() data: { id: string, updatePaymentDto: UpdatePaymentDto, userId: string }) {
-    return await this.paymentsService.update(data.id, data.updatePaymentDto, data.userId);
+  async update(@Payload() data: { id: string, updatePaymentDto: UpdatePaymentDto }) {
+    return await this.paymentsService.update(data.id, data.updatePaymentDto);
   }
 
   @MessagePattern('payments.remove')
