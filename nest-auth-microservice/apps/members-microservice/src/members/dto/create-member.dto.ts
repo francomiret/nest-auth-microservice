@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { MemberStatus, MemberType } from "../entities/member.entity";
 
@@ -12,11 +13,13 @@ export class CreateMemberDto {
 
     @IsDate()
     @IsNotEmpty()
+    @Type(() => Date)
     startDate: Date;
 
     @IsDate()
     @IsOptional()
-    endDate: Date;
+    @Type(() => Date)
+    endDate?: Date;
 
     @IsEnum(MemberType)
     @IsNotEmpty()
