@@ -45,4 +45,8 @@ export class CreatePaymentDto {
     @IsNotEmpty()
     @IsBoolean()
     available: boolean;
+
+    @IsNotEmpty()
+    @IsString()
+    userId: string;
 }

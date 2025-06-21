@@ -15,6 +15,7 @@ export class Payment {
     comments?: string;
     status: PaymentStatus;
     available: boolean;
+    userId: string;
     createdAt: Date;
     updatedAt: Date;
 }
